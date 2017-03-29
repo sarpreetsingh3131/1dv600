@@ -7,7 +7,7 @@ var catalog = (function () {
     };
     catalog.prototype.addBook = function (json) {
         var book = this.JSONToBook(json);
-        book.setId(this.getMaxId());
+        book.setId("" + this.getMaxId());
         this.bookList.push(book);
     };
     catalog.prototype.updateBook = function (id, jsonBook) {

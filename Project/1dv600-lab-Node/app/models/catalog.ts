@@ -5,17 +5,17 @@ class catalog {
     constructor() {
         this.bookList = new Array<book>();
     }
-    public deleteBook(id: string) {
+    public deleteBook(id: string): void {
         this.bookList.splice(this.bookList.indexOf(this.getBook(id)), 1);
     }
 
-    public addBook(json: string) {
+    public addBook(json: string): void {
         let book = this.JSONToBook(json);
-        book.setId(this.getMaxId());
+        book.setId("" + this.getMaxId());
         this.bookList.push(book);
     }
 
-    public updateBook(id: string, jsonBook: string) {
+    public updateBook(id: string, jsonBook: string): void {
         let updatedBook = this.JSONToBook(jsonBook);
         let oldBook = this.getBook(id);
 
@@ -27,8 +27,7 @@ class catalog {
         oldBook.setTitle(updatedBook.getTitle());
     }
 
-
-    public searchByAuthorOrTitle(titleOrAuthor: string) {
+    public searchByAuthorOrTitle(titleOrAuthor: string): string {
         let foundBooks: Array<book> = new Array<book>();
 
         for (var book of this.bookList) {
@@ -43,13 +42,16 @@ class catalog {
 
         return this.modifyJSON(JSON.stringify(foundBooks));
     }
-    public searchBookById(id: string) {
+
+    public searchBookById(id: string): string {
         return this.modifyJSON(JSON.stringify(this.getBook(id)));
     }
-    public toJSON() {
+
+    public toJSON(): string {
         return JSON.stringify(this.bookList);
     }
-    private getBook(id: string) {
+
+    private getBook(id: string): book {
         for (var book of this.bookList) {
             if (book.getId() == id) {
                 return book;
@@ -58,18 +60,19 @@ class catalog {
         throw new Error("Not Found")
     }
 
-    private getMaxId() {
+    private getMaxId(): number {
         if (this.bookList.length == 0) {
             return 1;
         }
         this.bookList.sort((first, second) => +first.getId - (+second.getId));
         return +this.bookList[this.bookList.length - 1].getId + 1;
     }
-    private modifyJSON(json: string) {
+
+    private modifyJSON(json: string): string {
         return json.split("publish_date").join("publishDate");
     }
 
-    private JSONToBook(json: string) {
+    private JSONToBook(json: string): book {
         let book = JSON.parse(json.split("publishDate").join("publish_date"));
         return book;
     }
