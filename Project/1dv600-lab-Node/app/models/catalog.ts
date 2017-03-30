@@ -5,6 +5,7 @@ class catalog {
     constructor() {
         this.bookList = new Array<book>();
     }
+
     public deleteBook(id: string): void {
         this.bookList.splice(this.bookList.indexOf(this.getBook(id)), 1);
     }

@@ -18,6 +18,7 @@ class book {
         this.publish_date = publish_date;
         this.description = description;
     }
+
     public getId(): string {
         return this.id;
     }
@@ -73,6 +74,7 @@ class book {
     public setDescription(description: string): void {
         this.description = description;
     }
+
     public toString(): string {
         return "Id: " + this.id + ", Title: " + this.title + ", Author: " + this.author + ", Genre: " + this.genre + ", Price: " + this.price + ", Description: " + this.description + ", publish_date: " + this.publish_date;
     }
