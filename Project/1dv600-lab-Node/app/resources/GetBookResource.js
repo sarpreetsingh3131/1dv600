@@ -5,7 +5,11 @@
 
     module.exports = function (id, callback) {
         LibraryDAO.readXMLFile(function (catalog) {
-            callback(catalog.searchBookById(id));
+            try {
+                callback("200", catalog.searchBookById(id));
+            } catch (e) {
+                callback("404", "Not Found");
+            }
         })
     };
 }());

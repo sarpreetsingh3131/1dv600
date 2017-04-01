@@ -5,11 +5,10 @@
 
     module.exports = function (callback, title) {
         LibraryDAO.readXMLFile(function (catalog) {
-            if (title == undefined) {
-                callback(catalog.toJson());
-            }
-            else {
-                callback(catalog.searchByTitleAndAuthor(title));
+            try {
+                callback("200", catalog.toJson());
+            } catch (e) {
+                callback("404", "Not Found");
             }
         })
     };

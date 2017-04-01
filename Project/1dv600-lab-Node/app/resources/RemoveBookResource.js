@@ -5,9 +5,13 @@
 
     module.exports = function (id, callback) {
         LibraryDAO.readXMLFile(function (catalog) {
-            catalog.deleteBook(id);
-            LibraryDAO.writeXMLFile(catalog);
-            callback(catalog.toJson());
+            try {
+                catalog.deleteBook(id);
+                LibraryDAO.writeXMLFile(catalog);
+                callback("200");
+            } catch (e) {
+                callback("404");
+            }
         })
     };
 }());

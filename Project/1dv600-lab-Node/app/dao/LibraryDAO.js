@@ -11,7 +11,11 @@
             var parser = new xml2js.Parser();
             fs.readFile(__dirname + '/books.xml', function (err, data) {
                 parser.parseString(data, function (err, result) {
-                    callback(new Catalog(result));
+                    if (result) {
+                        callback(new Catalog(result));
+                    } else {
+                        console.log("Cannot Read XML File")
+                    }
                 });
             });
         },
@@ -20,7 +24,9 @@
             var builder = new xml2js.Builder();
             var xml = builder.buildObject(catalog.bookList);
             fs.writeFile(__dirname + "/books.xml", xml, function (err) {
-
+                if (err) {
+                    console.log("Cannot Write XML File")
+                }
             });
         }
     };

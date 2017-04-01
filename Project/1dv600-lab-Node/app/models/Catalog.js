@@ -9,29 +9,41 @@ module.exports = class Catalog {
     }
 
     deleteBook(id) {
-        this.bookList.catalog.book.splice(this.getIndex(id), 1);
+        try {
+            this.bookList.catalog.book.splice(this.getIndex(id), 1);
+        } catch (e) {
+            throw new NotFoundException();
+        }
     }
 
     updateBook(id, jsonBook) {
-        this.bookList.catalog.book[this.getIndex(id)].title = jsonBook.title;
-        this.bookList.catalog.book[this.getIndex(id)].author = jsonBook.author;
-        this.bookList.catalog.book[this.getIndex(id)].description = jsonBook.description;
-        this.bookList.catalog.book[this.getIndex(id)].genre = jsonBook.genre;
-        this.bookList.catalog.book[this.getIndex(id)].price = jsonBook.price;
-        this.bookList.catalog.book[this.getIndex(id)].publish_date = jsonBook.publishDate;
+        try {
+            this.bookList.catalog.book[this.getIndex(id)].title = jsonBook.title;
+            this.bookList.catalog.book[this.getIndex(id)].author = jsonBook.author;
+            this.bookList.catalog.book[this.getIndex(id)].description = jsonBook.description;
+            this.bookList.catalog.book[this.getIndex(id)].genre = jsonBook.genre;
+            this.bookList.catalog.book[this.getIndex(id)].price = jsonBook.price;
+            this.bookList.catalog.book[this.getIndex(id)].publish_date = jsonBook.publishDate;
+        } catch (e) {
+            throw new NotFoundException();
+        }
     }
 
     addBook(jsonBook) {
-        var book = {
-            '$': { id: this.getMaxId() },
-            author: [jsonBook.author],
-            title: [jsonBook.title],
-            genre: [jsonBook.genre],
-            price: [jsonBook.price],
-            publish_date: [jsonBook.publish_date],
-            description: [jsonBook.description]
-        };
-        this.bookList.catalog.book.push(book);
+        try {
+            var book = {
+                '$': { id: jsonBook.id == undefined ? this.getMaxId() : jsonBook.id },
+                author: [jsonBook.author],
+                title: [jsonBook.title],
+                genre: [jsonBook.genre],
+                price: [jsonBook.price],
+                publish_date: [jsonBook.publishDate == undefined ? jsonBook.publish_date : jsonBook.publishDate],
+                description: [jsonBook.description]
+            };
+            this.bookList.catalog.book.push(book);
+        } catch (e) {
+            throw new NotFoundException();
+        }
     }
 
     toJson() {
@@ -43,20 +55,11 @@ module.exports = class Catalog {
     }
 
     searchBookById(id) {
-        return "[" + this.jsonToBook(this.bookList.catalog.book[this.getIndex(id)]) + "]";
-    }
-
-    searchByTitleAndAuthor(titleOrAuthor) {
-        var foundBooks = [];
-        for (var i = 0; i < this.bookList.catalog.book.length; i++) {
-            console.log(titleOrAuthor);
-            var title = "" + this.bookList.catalog.book[i].title;
-            var author = "" + this.bookList.catalog.book[i].author;
-            if (title.toLowerCase().includes(titleOrAuthor.toLowerCase()) || author.toLowerCase().includes(titleOrAuthor.toLowerCase())) {
-                foundBooks.push(this.jsonToBook(this.bookList.catalog.book[i]));
-            }
+        try {
+            return "[" + this.jsonToBook(this.bookList.catalog.book[this.getIndex(id)]) + "]";
+        } catch (e) {
+            throw new NotFoundException();
         }
-        return foundBooks;
     }
 
     jsonToBook(json) {
@@ -69,6 +72,7 @@ module.exports = class Catalog {
                 return i;
             }
         }
+        throw new NotFoundException();
     }
 
     getMaxId() {

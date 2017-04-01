@@ -15,8 +15,8 @@
     router.get('/', function (req, res) {
         res.type('json');
 
-        GetBooksResource(function (data) {
-            res.send(data);
+        GetBooksResource(function (status, data) {
+            res.status(status).send(data);
         });
     });
 
@@ -24,8 +24,8 @@
     router.put('/', function (req, res) {
         res.type('json');
 
-        AddBookResource(req.body, function () {
-            res.send("{}");
+        AddBookResource(req.body, function (status) {
+            res.status(status).send("{}");
         });
     });
 
@@ -33,22 +33,22 @@
     router.route('/:bookId')
         .get(function (req, res) {
             res.type('json');
-            GetBookResource(req.params.bookId, function (data) {
-                res.send(data);
+            GetBookResource(req.params.bookId, function (status, data) {
+                res.status(status).send(data);
             });
         })
 
         .post(function (req, res) {
             res.type('json');
-            EditBookResource(req.params.bookId, req.body, function () {
-                res.send("{}");
+            EditBookResource(req.params.bookId, req.body, function (status) {
+                res.status(status).send("{}");
             });
         })
 
         .delete(function (req, res) {
             res.type('json');
-            RemoveBookResource(req.params.bookId, function () {
-                res.send("{}");
+            RemoveBookResource(req.params.bookId, function (status) {
+                res.status(status).send("{}");
             });
         });
 
