@@ -1,6 +1,7 @@
 "use strict";
 
 var Book = require('../models/Book');
+
 module.exports = class Catalog {
 
     constructor(books) {
@@ -77,6 +78,6 @@ module.exports = class Catalog {
         this.bookList.catalog.book.sort(function (a, b) {
             return parseInt(a.$.id) - parseInt(b.$.id);
         })
-        return parseInt(this.bookList.catalog.book[this.bookList.catalog.book.length - 1].$.id) + 1;
+        return "" + (parseInt(this.bookList.catalog.book[this.bookList.catalog.book.length - 1].$.id) + 1);
     }
 }

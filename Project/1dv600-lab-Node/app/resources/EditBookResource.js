@@ -2,7 +2,6 @@
     "use strict";
 
     var LibraryDAO = require('../dao/LibraryDAO');
-    var Book = require('../models/Book')
 
     module.exports = function (id, data, callback) {
         LibraryDAO.readXMLFile(function (catalog) {

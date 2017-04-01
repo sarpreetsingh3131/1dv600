@@ -3,8 +3,6 @@
 
     var fs = require('fs');
     var Catalog = require('../models/Catalog');
-
-    // https://github.com/Leonidas-from-XIV/node-xml2js
     var xml2js = require('xml2js');
 
     var LibraryDAO = {
