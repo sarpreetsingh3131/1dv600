@@ -54,6 +54,19 @@ module.exports = class Catalog {
         return jsonBooks;
     }
 
+    searchByTitleOrAuthor(title) {
+        var foundBooks = [];
+        for (var i = 0; i < this.bookList.catalog.book.length; i++) {
+            if (String(this.bookList.catalog.book[i].title).toLowerCase().includes(String(title).toLowerCase()) || String(this.bookList.catalog.book[i].author).toLowerCase().includes(String(title).toLowerCase())) {
+                foundBooks.push(this.jsonToBook(this.bookList.catalog.book[i]));
+            }
+        }
+        if (foundBooks.length == 0) {
+            throw new NotFoundException();
+        }
+        return foundBooks;
+    }
+
     searchBookById(id) {
         try {
             return "[" + this.jsonToBook(this.bookList.catalog.book[this.getIndex(id)]) + "]";

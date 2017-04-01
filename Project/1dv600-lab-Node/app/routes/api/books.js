@@ -17,7 +17,7 @@
 
         GetBooksResource(function (status, data) {
             res.status(status).send(data);
-        });
+        }, req.query.title);
     });
 
 
